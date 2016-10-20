@@ -1,0 +1,9 @@
+{# empty Twig template #}
+
+{% for contact in contacts %}
+    <p>
+        <a href="{{ path('show', {'id': contact.id}) }}">
+            {{ contact.firstName }} {{ contact.lastName }}
+        </a>
+    </p>
+{% endfor %}

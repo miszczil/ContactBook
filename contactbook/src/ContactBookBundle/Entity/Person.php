@@ -1,0 +1,319 @@
+<?php
+
+namespace ContactBookBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+
+/**
+ * Person
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class Person
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="firstName", type="string", length=30)
+     */
+    private $firstName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lastName", type="string", length=30)
+     */
+    private $lastName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=500)
+     */
+    private $description;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Address", mappedBy="owner")
+     */
+    private $addresses;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Phone", mappedBy="owner")
+     */
+    private $phones;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Email", mappedBy="owner")
+     */
+    private $emails;
+    
+    /**
+     * @ORM\Column(type="string", nullable=TRUE)
+     *
+     * @Assert\NotBlank(message="Please, upload photo as a JPG file.")
+     * @Assert\File(mimeTypes={ "image/jpg" })
+     */
+    private $photo;
+    
+    /**
+    * @ORM\ManyToMany(targetEntity="Label", inversedBy="contacts")
+    * @ORM\JoinTable(name="contacts_labels")
+    */
+    private $labels;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set firstName
+     *
+     * @param string $firstName
+     * @return Person
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get firstName
+     *
+     * @return string 
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set lastName
+     *
+     * @param string $lastName
+     * @return Person
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get lastName
+     *
+     * @return string 
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Person
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->addresses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->phones = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->emails = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->labels = new\Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set photo
+     *
+     * @param string $photo
+     * @return Person
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Get photo
+     *
+     * @return string 
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * Add addresses
+     *
+     * @param \ContactBookBundle\Entity\Address $addresses
+     * @return Person
+     */
+    public function addAddress(\ContactBookBundle\Entity\Address $addresses)
+    {
+        $this->addresses[] = $addresses;
+
+        return $this;
+    }
+
+    /**
+     * Remove addresses
+     *
+     * @param \ContactBookBundle\Entity\Address $addresses
+     */
+    public function removeAddress(\ContactBookBundle\Entity\Address $addresses)
+    {
+        $this->addresses->removeElement($addresses);
+    }
+
+    /**
+     * Get addresses
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAddresses()
+    {
+        return $this->addresses;
+    }
+
+    /**
+     * Add phones
+     *
+     * @param \ContactBookBundle\Entity\Phone $phones
+     * @return Person
+     */
+    public function addPhone(\ContactBookBundle\Entity\Phone $phones)
+    {
+        $this->phones[] = $phones;
+
+        return $this;
+    }
+
+    /**
+     * Remove phones
+     *
+     * @param \ContactBookBundle\Entity\Phone $phones
+     */
+    public function removePhone(\ContactBookBundle\Entity\Phone $phones)
+    {
+        $this->phones->removeElement($phones);
+    }
+
+    /**
+     * Get phones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPhones()
+    {
+        return $this->phones;
+    }
+
+    /**
+     * Add emails
+     *
+     * @param \ContactBookBundle\Entity\Email $emails
+     * @return Person
+     */
+    public function addEmail(\ContactBookBundle\Entity\Email $emails)
+    {
+        $this->emails[] = $emails;
+
+        return $this;
+    }
+
+    /**
+     * Remove emails
+     *
+     * @param \ContactBookBundle\Entity\Email $emails
+     */
+    public function removeEmail(\ContactBookBundle\Entity\Email $emails)
+    {
+        $this->emails->removeElement($emails);
+    }
+
+    /**
+     * Get emails
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEmails()
+    {
+        return $this->emails;
+    }
+
+    /**
+     * Add labels
+     *
+     * @param \ContactBookBundle\Entity\Label $labels
+     * @return Person
+     */
+    public function addLabel(\ContactBookBundle\Entity\Label $labels)
+    {
+        $this->labels[] = $labels;
+
+        return $this;
+    }
+
+    /**
+     * Remove labels
+     *
+     * @param \ContactBookBundle\Entity\Label $labels
+     */
+    public function removeLabel(\ContactBookBundle\Entity\Label $labels)
+    {
+        $this->labels->removeElement($labels);
+    }
+
+    /**
+     * Get labels
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLabels()
+    {
+        return $this->labels;
+    }
+}

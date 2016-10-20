@@ -1,0 +1,70 @@
+{# empty Twig template #}
+
+<p>{{ contact.firstName }} {{contact.lastName }}</p>
+<p>{{ contact.description }}</p>
+
+<ul>
+    <li><a href="{{ path('edit', {'id': contact.id}) }}">Edytuj</a></li>
+    <li><a href="{{ path('changePhoto', {'id': contact.id}) }}">Zmień zdjęcie</a></li>
+    <li><a href="{{ path('delete', {'id': contact.id}) }}">Usuń</a></li>
+    
+</ul>
+
+<h4>Adresy:</h4>
+<ul>
+    {% for address in contact.addresses %}
+        <li>
+            {{address.street}} {{address.houseno}}
+            {% if address.apartmentno != null %}
+                /{{address.apartmentno}}
+            {% endif %}
+            , {{address.city}}
+            | <a href="{{ path('editAddress',
+                        {'id': contact.id, 'addressId': address.id}) }}">Edytuj</a>
+            | <a href="{{ path('deleteAddress',
+                        {'id': contact.id, 'addressId': address.id}) }}">Usuń</a>
+        </li>
+        
+    {% endfor %}
+    <li><a href="{{ path('addAddress', {'id': contact.id}) }}">Dodaj adres</a></li>
+</ul>
+
+<h4>Telefony:</h4>
+<ul>
+    {% for phone in contact.phones %}
+        <li>
+            {{phone.number}} ({{phone.type}})
+            | <a href="{{ path('editPhone',
+                        {'id': contact.id, 'phoneId': phone.id}) }}">Edytuj</a>
+            | <a href="{{ path('deletePhone',
+                        {'id': contact.id, 'phoneId': phone.id}) }}">Usuń</a>
+        </li>       
+    {% endfor %}
+    <li><a href="{{ path('addPhone', {'id': contact.id}) }}">Dodaj telefon</a></li>
+</ul>
+
+<h4>Email:</h4>
+<ul>
+    {% for email in contact.emails %}
+        <li>
+            {{email.address}} ({{email.type}})
+            | <a href="{{ path('editEmail',
+                        {'id': contact.id, 'emailId': email.id}) }}">Edytuj</a>
+            | <a href="{{ path('deleteEmail',
+                        {'id': contact.id, 'emailId': email.id}) }}">Usuń</a>
+        </li>
+        
+    {% endfor %}
+    <li><a href="{{ path('addEmail', {'id': contact.id}) }}">Dodaj email</a></li>
+</ul
+
+<h4>Etykiety:</h4>
+<ul>
+    {% for label in contact.labels %}
+        <li>{{label.name}}</li>
+    {% endfor %}
+    <li><a href="{{ path('addLabels', {'id': contact.id}) }}">Zarządzaj etykietami</a></li>
+</ul>
+
+
+<img src="{{ asset('uploads/photos/' ~ contact.photo) }}" />
